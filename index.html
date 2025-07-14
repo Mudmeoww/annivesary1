@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anniversary 1 Year</title>
+  <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Itim', cursive;
+      background: linear-gradient(135deg, #ffe4ec, #fff9e6, #fdf5e6);
+      color: #5c3c3c;
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      color: #ff8fa3;
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: #a97454;
+      max-width: 700px;
+      margin: 1rem auto;
+    }
+
+    .card {
+      background: #fffaf3;
+      border-radius: 30px;
+      padding: 1.5rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      margin: 1.5rem auto;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .heart {
+      font-size: 2rem;
+      color: #f39ab7;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.2);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    textarea {
+      width: 100%;
+      padding: 10px;
+      font-family: inherit;
+      border-radius: 15px;
+      border: 1px solid #ffd6e7;
+      resize: none;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #ffd1dc;
+      border-radius: 20px;
+      color: #5c3c3c;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    audio {
+      margin-top: 1rem;
+      max-width: 100%;
+    }
+
+    .slideshow-wrapper {
+      position: relative;
+      max-width: 100%;
+      height: 60vw;
+      max-height: 500px;
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 20px;
+    }
+
+    .slideshow-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .slide-item {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      top: 0;
+      left: 100%;
+      opacity: 0;
+      transition: left 0.8s ease-in-out, opacity 0.8s;
+    }
+
+    .slide-item.active {
+      left: 0;
+      opacity: 1;
+      z-index: 1;
+    }
+
+    .slide-item.previous {
+      left: -100%;
+      opacity: 0;
+    }
+
+    .slide-item video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2rem;
+      background: rgba(255, 255, 255, 0.6);
+      padding: 5px 12px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 2;
+      user-select: none;
+    }
+
+    .arrow-left {
+      left: 10px;
+    }
+
+    .arrow-right {
+      right: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>💗 Happy Anniversary ค้าบที่รัก 💗</h1>
+    <p>ขอบคุณโลกที่เหวี่ยงให้เรามาเจอกันนะ<br>เค้าขอโทษที่ทำตัวไม่น่ารักไปบ้าง ขี้งอนก็บ่อย
+      แต่ก็ขอบคุณที่เธอใจเย็นกับเค้าเสมอเลย:)</p>
+    <p>ไปเที่ยวด้วยกัน ไปหาของกินอร่อยๆ อยู่ด้วยกันไปนานๆเลยนะหมู<br>เค้ารักเธอนะ🐖🐕</p>
+    <div class="heart">❤️❤️❤️</div>
+
+    <audio id="bgm" autoplay muted loop>
+      <source src="ฝากใจ.mp3" type="audio/mpeg">
+    </audio>
+
+    <p style="font-size: 0.9rem; margin-top: 1rem;">🎵 ถ้าไม่ได้ยินเพลง กดเล่นด้านล่างนี้ได้เลย</p>
+    <audio controls>
+      <source src="ฝากใจ.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <div class="card">
+    <div class="slideshow-wrapper">
+      <div class="arrow arrow-left" onclick="prevSlide()">&#10094;</div>
+      <div class="arrow arrow-right" onclick="nextSlide()">&#10095;</div>
+
+      <div class="slideshow-container">
+        <img class="slide-item" src="1.jpg" />
+        <img class="slide-item" src="2.jpg" />
+        <video class="slide-item" loop muted>
+          <source src="1.mp4" type="video/mp4">
+        </video>
+        <img class="slide-item" src="3.jpg" />
+        <video class="slide-item" loop muted>
+          <source src="2.mp4" type="video/mp4">
+        </video>
+        <img class="slide-item" src="4.jpg" />
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>เขียนอะไรถึงเค้าหน่อยจิ 💌</h2>
+    <textarea id="loveNote" placeholder="เรียงความมาได้เลยค้าบ" rows="4"></textarea><br>
+    <button onclick="sendMessage()">ส่งข้อความ</button>
+    <div id="displayMessage" style="margin-top: 1.5rem; font-size: 1.2rem; color: #a97454;"></div>
+  </div>
+
+  <script>
+    // เพลง autoplay เมื่อ user มี interaction
+    window.addEventListener("load", function () {
+      const audio = document.getElementById("bgm");
+      function tryPlayAudio() {
+        audio.muted = false;
+        audio.play().catch(e => console.log("เล่นไม่ได้ทันที:", e));
+      }
+      window.addEventListener("click", tryPlayAudio, { once: true });
+      window.addEventListener("touchstart", tryPlayAudio, { once: true });
+      window.addEventListener("scroll", tryPlayAudio, { once: true });
+    });
+
+    // ส่งข้อความไปยัง Apps Script
+    function sendMessage() {
+      const note = document.getElementById("loveNote").value.trim();
+      const display = document.getElementById("displayMessage");
+      if (!note) {
+        display.innerHTML = "ยังไม่ได้พิมพ์ข้อความเลยน้า~ 😘";
+        return;
+      }
+      display.innerHTML = `💌 ข้อความของคุณ: <br>"${note}"`;
+      fetch("https://script.google.com/macros/s/AKfycbxLaki79W5KkIm3YGh-wOrFPrj0xOZ-1MxYl8s9hHuZDSIcnm8JVzvQpeQlOlR9K-0l/exec", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "message=" + encodeURIComponent(note)
+      })
+        .then(res => res.text())
+        .then(() => display.innerHTML += `<br><br>📬 ส่งถึง หมาหมี่ที่รัก เรียบร้อยแล้ว!`)
+        .catch(() => display.innerHTML += `<br><br>⚠️ เกิดข้อผิดพลาดในการส่ง`);
+    }
+
+    // Slide Logic
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide-item');
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.remove('active', 'previous');
+        if (slide.tagName === "VIDEO") slide.pause();
+        if (i === index) {
+          slide.classList.add('active');
+          if (slide.tagName === "VIDEO") slide.play();
+        } else if (i === (index - 1 + slides.length) % slides.length) {
+          slide.classList.add('previous');
+        }
+      });
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+      showSlide(currentSlide);
+    }
+
+    showSlide(currentSlide);
+    setInterval(nextSlide, 3000);
+  </script>
+</body>
+
+</html>
