@@ -179,18 +179,18 @@
 
       <div class="slideshow-container">
         <img class="slide-item" src="1.jpg" />
-                <img class="slide-item" src="3.jpg" />
-                <video class="slide-item" loop>
-                    <source src="1.mp4" type="video/mp4">
-                </video>
-                <img class="slide-item" src="4.jpg" />
-                <img class="slide-item" src="5.jpg" />
-                <video class="slide-item" loop>
-                    <source src="2.mp4" type="video/mp4">
-                </video>
-                <img class="slide-item" src="6.jpg" />
-                <img class="slide-item" src="7.jpg" />
-                <img class="slide-item" src="8.jpg" />
+        <img class="slide-item" src="3.jpg" />
+        <video class="slide-item" muted playsinline>
+          <source src="1.mp4" type="video/mp4">
+        </video>
+        <img class="slide-item" src="4.jpg" />
+        <img class="slide-item" src="5.jpg" />
+        <video class="slide-item" muted playsinline>
+          <source src="2.mp4" type="video/mp4">
+        </video>
+        <img class="slide-item" src="6.jpg" />
+        <img class="slide-item" src="7.jpg" />
+        <img class="slide-item" src="8.jpg" />
       </div>
     </div>
   </div>
@@ -203,7 +203,6 @@
   </div>
 
   <script>
-    // เพลง autoplay เมื่อ user มี interaction
     window.addEventListener("load", function () {
       const audio = document.getElementById("bgm");
       function tryPlayAudio() {
@@ -215,7 +214,6 @@
       window.addEventListener("scroll", tryPlayAudio, { once: true });
     });
 
-    // ส่งข้อความไปยัง Apps Script
     function sendMessage() {
       const note = document.getElementById("loveNote").value.trim();
       const display = document.getElementById("displayMessage");
@@ -234,17 +232,18 @@
         .catch(() => display.innerHTML += `<br><br>⚠️ เกิดข้อผิดพลาดในการส่ง`);
     }
 
-    // Slide Logic
     let currentSlide = 0;
     const slides = document.querySelectorAll('.slide-item');
 
     function showSlide(index) {
       slides.forEach((slide, i) => {
         slide.classList.remove('active', 'previous');
-        if (slide.tagName === "VIDEO") slide.pause();
+        if (slide.tagName === "VIDEO") {
+          slide.pause();
+          slide.currentTime = 0;
+        }
         if (i === index) {
           slide.classList.add('active');
-          if (slide.tagName === "VIDEO") slide.play();
         } else if (i === (index - 1 + slides.length) % slides.length) {
           slide.classList.add('previous');
         }
@@ -254,6 +253,7 @@
     function nextSlide() {
       currentSlide = (currentSlide + 1) % slides.length;
       showSlide(currentSlide);
+      autoNext();
     }
 
     function prevSlide() {
@@ -261,8 +261,26 @@
       showSlide(currentSlide);
     }
 
+    function autoNext() {
+      const current = slides[currentSlide];
+      if (current.tagName === "VIDEO") {
+        current.play();
+        current.onended = () => {
+          currentSlide = (currentSlide + 1) % slides.length;
+          showSlide(currentSlide);
+          autoNext();
+        };
+      } else {
+        setTimeout(() => {
+          currentSlide = (currentSlide + 1) % slides.length;
+          showSlide(currentSlide);
+          autoNext();
+        }, 3000);
+      }
+    }
+
     showSlide(currentSlide);
-    setInterval(nextSlide, 3000);
+    autoNext();
   </script>
 </body>
 
