@@ -23,8 +23,6 @@
     h1 {
       font-size: 2.2rem;
       color: #ff8fa3;
-      white-space: nowrap;
-      overflow-x: auto;
     }
 
     p {
@@ -51,9 +49,17 @@
     }
 
     @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-      100% { transform: scale(1); }
+      0% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.2);
+      }
+
+      100% {
+        transform: scale(1);
+      }
     }
 
     textarea {
@@ -82,10 +88,10 @@
     }
 
     .slideshow-wrapper {
-      aspect-ratio: 3 / 4;
-      height: auto;
-      width: 100%;
-      max-width: 550px;
+      position: relative;
+      max-width: 100%;
+      height: 60vw;
+      max-height: 620px;
       margin: 0 auto;
       overflow: hidden;
       border-radius: 20px;
@@ -95,9 +101,6 @@
       position: relative;
       width: 100%;
       height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     .slide-item {
@@ -122,13 +125,19 @@
       opacity: 0;
     }
 
+    .slide-item video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
     .arrow {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 1.5rem;
+      font-size: 2rem;
       background: rgba(255, 255, 255, 0.6);
-      padding: 5px 10px;
+      padding: 5px 12px;
       border-radius: 50%;
       cursor: pointer;
       z-index: 2;
@@ -141,25 +150,6 @@
 
     .arrow-right {
       right: 10px;
-    }
-
-    img, video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    @media (max-width: 480px) {
-      h1 {
-        font-size: 1.4rem;
-        white-space: normal;
-      }
-
-      p { font-size: 1rem; }
-      textarea { font-size: 1rem; }
-      button { font-size: 1rem; padding: 8px 16px; }
-      .heart { font-size: 1.5rem; }
     }
   </style>
 </head>
@@ -176,7 +166,7 @@
       <source src="ฝากใจ.mp3" type="audio/mpeg">
     </audio>
 
-    <p style="font-size: 0.9rem; margin-top: 1rem;">🎵 ถ้าไม่ได้ยินเพลง กดเล่นด้านล่างนี้ได้เลย</p>
+    <p style="font-size: 0.9rem; margin-top: 1rem;">🎵 ถ้าไม่ได้ยินเพลงจิ้มตรงนี้นะ</p>
     <audio controls>
       <source src="ฝากใจ.mp3" type="audio/mpeg">
     </audio>
@@ -184,8 +174,9 @@
 
   <div class="card">
     <div class="slideshow-wrapper">
-      <div class="arrow arrow-left" onclick="prevSlide()">❮</div>
-      <div class="arrow arrow-right" onclick="nextSlide()">❯</div>
+      <div class="arrow arrow-left" onclick="prevSlide()">&#10094;</div>
+      <div class="arrow arrow-right" onclick="nextSlide()">&#10095;</div>
+
       <div class="slideshow-container">
         <img class="slide-item" src="1.jpg" />
         <img class="slide-item" src="3.jpg" />
@@ -198,6 +189,9 @@
           <source src="2.mp4" type="video/mp4">
         </video>
         <img class="slide-item" src="6.jpg" />
+        <video class="slide-item" muted playsinline>
+          <source src="3.mp4" type="video/mp4">
+        </video>
         <img class="slide-item" src="7.jpg" />
         <img class="slide-item" src="8.jpg" />
       </div>
@@ -218,7 +212,9 @@
         audio.muted = false;
         audio.play().catch(e => console.log("เล่นไม่ได้ทันที:", e));
       }
-      ["click", "touchstart", "scroll"].forEach(evt => window.addEventListener(evt, tryPlayAudio, { once: true }));
+      window.addEventListener("click", tryPlayAudio, { once: true });
+      window.addEventListener("touchstart", tryPlayAudio, { once: true });
+      window.addEventListener("scroll", tryPlayAudio, { once: true });
     });
 
     function sendMessage() {
@@ -228,14 +224,14 @@
         display.innerHTML = "ยังไม่ได้พิมพ์ข้อความเลยน้า~ 😘";
         return;
       }
-      display.innerHTML = `💌 ข้อความของคุณ: <br>"${note}"`;
+      display.innerHTML = `💌 ข้อความของเธอ: <br>"${note}"`;
       fetch("https://script.google.com/macros/s/AKfycbxLaki79W5KkIm3YGh-wOrFPrj0xOZ-1MxYl8s9hHuZDSIcnm8JVzvQpeQlOlR9K-0l/exec", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: "message=" + encodeURIComponent(note)
       })
         .then(res => res.text())
-        .then(() => display.innerHTML += `<br><br>ส่งเรียบร้อยแน้ว📬 เค้าจะเก็บข้อความนี้ไว้อย่างดีเล้ย`)
+        .then(() => display.innerHTML += `<br><br>📬 ส่งแน้ว เค้าจะเก็บมันไว้อย่างดีเลย!`)
         .catch(() => display.innerHTML += `<br><br>⚠️ เกิดข้อผิดพลาดในการส่ง`);
     }
 
