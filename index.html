@@ -49,17 +49,9 @@
     }
 
     @keyframes pulse {
-      0% {
-        transform: scale(1);
-      }
-
-      50% {
-        transform: scale(1.2);
-      }
-
-      100% {
-        transform: scale(1);
-      }
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
     }
 
     textarea {
@@ -88,10 +80,10 @@
     }
 
     .slideshow-wrapper {
-      position: relative;
-      max-width: 100%;
-      height: 60vw;
-      max-height: 600px;
+      aspect-ratio: 3 / 4;
+      height: auto;
+      width: 100%;
+      max-width: 550px;
       margin: 0 auto;
       overflow: hidden;
       border-radius: 20px;
@@ -125,19 +117,13 @@
       opacity: 0;
     }
 
-    .slide-item video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
     .arrow {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 2rem;
+      font-size: 1.5rem;
       background: rgba(255, 255, 255, 0.6);
-      padding: 5px 12px;
+      padding: 5px 10px;
       border-radius: 50%;
       cursor: pointer;
       z-index: 2;
@@ -150,6 +136,20 @@
 
     .arrow-right {
       right: 10px;
+    }
+
+    img, video {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 1.6rem; }
+      p { font-size: 1rem; }
+      textarea { font-size: 1rem; }
+      button { font-size: 1rem; padding: 8px 16px; }
+      .heart { font-size: 1.5rem; }
     }
   </style>
 </head>
@@ -166,7 +166,7 @@
       <source src="ฝากใจ.mp3" type="audio/mpeg">
     </audio>
 
-    <p style="font-size: 0.9rem; margin-top: 1rem;">🎵 ถ้าไม่ได้ยินเพลง กดเล่นด้านล่างนี้ได้เลย</p>
+    <p style="font-size: 0.9rem; margin-top: 1rem;">🎵 ถ้าไม่ได้ยินเพลงจิ้มตรงนี้ๆ</p>
     <audio controls>
       <source src="ฝากใจ.mp3" type="audio/mpeg">
     </audio>
@@ -174,9 +174,8 @@
 
   <div class="card">
     <div class="slideshow-wrapper">
-      <div class="arrow arrow-left" onclick="prevSlide()">&#10094;</div>
-      <div class="arrow arrow-right" onclick="nextSlide()">&#10095;</div>
-
+      <div class="arrow arrow-left" onclick="prevSlide()">❮</div>
+      <div class="arrow arrow-right" onclick="nextSlide()">❯</div>
       <div class="slideshow-container">
         <img class="slide-item" src="1.jpg" />
         <img class="slide-item" src="3.jpg" />
@@ -209,9 +208,7 @@
         audio.muted = false;
         audio.play().catch(e => console.log("เล่นไม่ได้ทันที:", e));
       }
-      window.addEventListener("click", tryPlayAudio, { once: true });
-      window.addEventListener("touchstart", tryPlayAudio, { once: true });
-      window.addEventListener("scroll", tryPlayAudio, { once: true });
+      ["click", "touchstart", "scroll"].forEach(evt => window.addEventListener(evt, tryPlayAudio, { once: true }));
     });
 
     function sendMessage() {
@@ -228,7 +225,7 @@
         body: "message=" + encodeURIComponent(note)
       })
         .then(res => res.text())
-        .then(() => display.innerHTML += `<br><br>📬 ส่งถึง หมาหมี่ที่รัก เรียบร้อยแล้ว!`)
+        .then(() => display.innerHTML += `<br><br>ส่งเรียบร้อยแน้ว📬 เค้าจะเก็บข้อความนี้ไว้อย่างดีเล้ย`)
         .catch(() => display.innerHTML += `<br><br>⚠️ เกิดข้อผิดพลาดในการส่ง`);
     }
 
